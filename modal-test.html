@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Test</title>
+</head>
+<body>
+    <h1>Test de Modal</h1>
+    
+    <button onclick="testAlert()">Test Alert</button>
+    <br><br>
+    
+    <button onclick="openModal()">Abrir Modal</button>
+    
+    <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999;">
+        <div style="background:white; padding:20px; margin:50px auto; max-width:500px; border-radius:10px;">
+            <h2>Modal de Prueba</h2>
+            <p>Este es un modal de prueba ultra simple.</p>
+            <button onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+    
+    <script>
+        console.log('TEST: Iniciando...');
+        
+        function testAlert() {
+            console.log('TEST: Click en test alert');
+            alert('JavaScript funciona!');
+        }
+        
+        function openModal() {
+            console.log('TEST: Abriendo modal');
+            document.getElementById('modal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            console.log('TEST: Cerrando modal');
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        console.log('TEST: Sistema inicializado');
+    </script>
+</body>
+</html>

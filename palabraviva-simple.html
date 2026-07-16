@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palabra Viva | Blog de Andrea Katerji</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #481F71;
+            margin-bottom: 40px;
+            font-size: 3rem;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .article-category {
+            background: linear-gradient(135deg, #481F71, #6EC6D2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .article-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .article-excerpt {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .btn-read {
+            background: linear-gradient(135deg, #481F71, #6EC6D2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-read:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 31, 113, 0.3);
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            max-height: 90vh;
+            width: 90%;
+            overflow-y: auto;
+            position: relative;
+            padding: 40px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #481F71;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #6EC6D2;
+            transform: rotate(90deg);
+        }
+        
+        .modal-category {
+            background: linear-gradient(135deg, #481F71, #6EC6D2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            color: #481F71;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+        
+        .modal-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .modal-text p {
+            margin-bottom: 20px;
+        }
+        
+        .modal-text h2 {
+            font-size: 1.5rem;
+            color: #481F71;
+            margin: 30px 0 15px;
+        }
+        
+        .modal-text blockquote {
+            border-left: 4px solid #481F71;
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .modal-text strong {
+            background: linear-gradient(135deg, rgba(72, 31, 113, 0.1), rgba(110, 198, 210, 0.1));
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Palabra Viva</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 50px;">
+            Blog de medicina funcional donde la ciencia y el alma se encuentran para transformar tu salud.
+        </p>
+        
+        <div class="blog-grid">
+            <!-- Article 1 -->
+            <div class="article-card">
+                <div class="article-category">Salud Hormonal</div>
+                <h2 class="article-title">Tu periodo no es el problema. Tu cuerpo está mandando una señal de auxilio.</h2>
+                <p class="article-excerpt">
+                    Descubre qué te está diciendo tu ciclo menstrual sobre tu salud hormonal y metabólica.
+                </p>
+                <button class="btn-read" onclick="openModal('periodo')">Leer artículo</button>
+            </div>
+
+            <!-- Article 2 -->
+            <div class="article-card">
+                <div class="article-category">Fatiga Crónica</div>
+                <h2 class="article-title">Llevás 10 años cansada y te dijeron que es estrés.</h2>
+                <p class="article-excerpt">
+                    El cansancio crónico tiene causas reales que la medicina convencional no está investigando.
+                </p>
+                <button class="btn-read" onclick="openModal('cansancio')">Leer artículo</button>
+            </div>
+
+            <!-- Article 3 -->
+            <div class="article-card">
+                <div class="article-category">Manejo del Estrés</div>
+                <h2 class="article-title">El cortisol no es tu enemigo. Es que nunca aprendiste a manejarlo.</h2>
+                <p class="article-excerpt">
+                    Aprende a trabajar con tu cortisol, no en su contra, para recuperar tu energía y salud.
+                </p>
+                <button class="btn-read" onclick="openModal('cortisol')">Leer artículo</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-category" id="modal-category"></div>
+            <h1 class="modal-title" id="modal-title"></h1>
+            <div class="modal-text" id="modal-text"></div>
+        </div>
+    </div>
+    
+    <script>
+        console.log('PALABRA VIVA SIMPLE: Iniciando...');
+        
+        const articles = {
+            periodo: {
+                category: 'Salud Hormonal',
+                title: 'Tu periodo no es el problema. Tu cuerpo está mandando una señal de auxilio.',
+                content: `
+                    <p>Cada mes, millones de mujeres se toman un ibuprofeno, aprietan los dientes y esperan que pase. El dolor, los coágulos, el humor que cambia tres días antes, el hinchazón que parece inexplicable. Y lo que les dicen <strong>si es que les dicen algo</strong> es que eso es normal. Que las mujeres duelen. Que así es el periodo.</p>
+                    
+                    <p><strong>No. No es normal.</strong> Doloroso no significa normal. Y esta diferencia importa más de lo que creés.</p>
+                    
+                    <h2>¿Qué le está pasando realmente a tu cuerpo?</h2>
+                    
+                    <p>El ciclo menstrual es, en esencia, una conversación entre tu cerebro, tus ovarios y tu útero. Cuando esa conversación fluye bien, el periodo llega, hace lo que tiene que hacer, y se va en cuatro o cinco días sin mayor drama. Pero cuando hay interferencia en esa conversación <strong>y hoy hay muchas fuentes de interferencia</strong> el resultado es lo que la mayoría de las mujeres viven como "normal": dolor, irregularidad, síndrome premenstrual severo, coágulos.</p>
+                    
+                    <p>El principal culpable en la mayoría de los casos es la <strong>dominancia estrogénica</strong>. Este término suena técnico pero describe algo muy concreto: una situación en la que el estrógeno está elevado o actúa de manera excesiva en relación con la progesterona. El estrógeno, cuando está en balance, es una hormona poderosa y necesaria. Es la que construye el endometrio, la que nos da energía en la primera mitad del ciclo, la que contribuye a la salud cardiovascular y ósea. Pero cuando domina sin oposición, se convierte en el motor de inflamación, dolor y proliferación celular que muchas mujeres experimentan mes a mes.</p>
+                    
+                    <blockquote>
+                        Tu cuerpo no te está fallando. Tu cuerpo está respondiendo a un ambiente que lo sobrepasa.
+                    </blockquote>
+                    
+                    <h2>¿Qué se puede hacer?</h2>
+                    
+                    <p>La respuesta convencional a un periodo doloroso suele ser la misma: anticonceptivos orales para "regular" el ciclo, antiinflamatorios para el dolor, y si hay endometriosis, eventualmente cirugía. Nada de esto está mal en el contexto correcto. Pero ninguno de estos abordajes le pregunta al cuerpo qué está pasando.</p>
+                    
+                    <p>La medicina funcional hace otra cosa: mira al sistema completo. Evalúa el estroboloma con un estudio de microbioma. Mide el metabolismo del estrógeno con un análisis de orina seco (DUTCH test). Evalúa la carga hepática con marcadores específicos. Mide el cortisol salival a lo largo del día para ver el ritmo del eje HPA. Y con esa información, construye un plan que va a la raíz.</p>
+                    
+                    <p><strong>No es magia. Es medicina que entiende que el cuerpo es un sistema conectado, y que no podés arreglar una parte sin entender el todo.</strong></p>
+                `
+            },
+            cansancio: {
+                category: 'Fatiga Crónica',
+                title: 'Llevás 10 años cansada y te dijeron que es estrés.',
+                content: `
+                    <p>Hay un tipo de agotamiento que no se resuelve con vacaciones. Que no mejora con dormir más el fin de semana. Que no responde al café, al ejercicio ni a la sugerencia bien intencionada de "tomártelo con calma". Es un cansancio que vive en el hueso. Que te hace abrir los ojos por la mañana sintiéndote igual que cuando te acostaste. Que te convence, con el tiempo, de que simplemente sos así.</p>
+                    
+                    <p><strong>No sos así. Pero alguien te convenció de que sí.</strong></p>
+                    
+                    <h2>Por qué el cansancio crónico femenino es sistemáticamente ignorado</h2>
+                    
+                    <p>En la consulta médica convencional, el agotamiento crónico en mujeres tiene dos destinos posibles. O se diagnostica como depresión y se prescribe un antidepresivo. O se atribuye al estrés, al ritmo de vida, a "hacer demasiado", y la mujer se va con una palmada en el hombro y la sugerencia de meditar.</p>
+                    
+                    <p>Ambas respuestas ignoran la biología femenina. El cansancio crónico en mujeres rara vez es solo "estrés". Es casi siempre una combinación de disfunciones sistémicas que la medicina tradicional no está entrenada a buscar: inflamación crónica de bajo grado, resistencia a la insulina silenciosa, disfunción del eje HPA, deficiencias nutricionales específicas, y desequilibrios hormonales que no aparecen en un análisis de rutina.</p>
+                    
+                    <blockquote>
+                        El cansancio que sentís no es tu culpa. Es una señal de que algo en tu sistema necesita atención.
+                    </blockquote>
+                    
+                    <h2>La inflamación crónica: el fuego invisible</h2>
+                    
+                    <p>La inflamación aguda es visible: te cortás, se hincha, duele, se cura. La inflamación crónica de bajo grado es silenciosa. No duele. No se ve. Pero consume energía constantemente. Es como tener un motor corriendo en segundo plano todo el tiempo, drenando tus reservas.</p>
+                    
+                    <h2>Qué podés hacer hoy</h2>
+                    
+                    <p>La solución no es un antidepresivo ni "tomarte las cosas con más calma". La solución es entender qué está pasando realmente en tu cuerpo y abordarlo desde la raíz.</p>
+                `
+            },
+            cortisol: {
+                category: 'Manejo del Estrés',
+                title: 'El cortisol no es tu enemigo. Es que nunca aprendiste a manejarlo.',
+                content: `
+                    <p>Si hay una hormona que recibe más críticas que el cortisol, no se me ocurre cuál es. "Tengo el cortisol por las nubes", "el cortisol me está matando", "hay que bajar el cortisol". Se habla de él como si fuera un intruso en el cuerpo, algo que hay que eliminar. Ese es el primer error.</p>
+                    
+                    <p><strong>El cortisol es esencial. Sin cortisol, morirías.</strong> El problema no es que exista. El problema es cuándo, cuánto y en qué ritmo aparece.</p>
+                    
+                    <h2>El ritmo circadiano del cortisol</h2>
+                    
+                    <p>El cortisol tiene un ritmo diario preciso y elegante. Debería estar en su pico máximo aproximadamente 30-45 minutos después de despertar y luego descender de manera gradual a lo largo del día, llegando a su nivel más bajo en la noche. Este ritmo no es opcional. Es esencial para que decenas de procesos biológicos funcionen correctamente.</p>
+                    
+                    <p>Cuando el ritmo se invierte <strong>bajo en la mañana, alto en la noche</strong> todo el sistema falla. La persona no puede despertar, arrastra el día con niebla mental, y cuando finalmente llega la noche y debería dormir, está activada, rumiando, incapaz de apagar. Eso no es "ser noctámbula". Es un eje HPA disfuncional.</p>
+                    
+                    <blockquote>
+                        El problema no es que tengas cortisol. El problema es cuándo lo tenés y en qué cantidad.
+                    </blockquote>
+                    
+                    <h2>Qué se puede hacer</h2>
+                    
+                    <p>Manejar el cortisol no significa eliminarlo. Significa respetar su ritmo. Algunas de las intervenciones más respaldadas por evidencia incluyen: exposición a luz solar en los primeros 30 minutos después de despertar para anclar el ritmo circadiano, entrenamiento físico dosificado con períodos de recuperación genuinos, adaptógenos como la ashwagandha o la rhodiola con evidencia de modulación del eje HPA, magnesio en la noche para facilitar el descenso del cortisol y mejorar el sueño, y reducción de estresores digitales en las horas nocturnas.</p>
+                    
+                    <p>Pero sobre todo: aprender a reconocer que el descanso no es un lujo. Es una necesidad fisiológica sin la cual el eje HPA no puede regularse. En nuestra cultura, eso sigue siendo radical.</p>
+                `
+            }
+        };
+        
+        function openModal(articleId) {
+            console.log('PALABRA VIVA SIMPLE: Abriendo artículo:', articleId);
+            
+            const article = articles[articleId];
+            if (!article) {
+                console.error('PALABRA VIVA SIMPLE: Artículo no encontrado:', articleId);
+                return;
+            }
+            
+            document.getElementById('modal-category').textContent = article.category;
+            document.getElementById('modal-title').textContent = article.title;
+            document.getElementById('modal-text').innerHTML = article.content;
+            
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            console.log('PALABRA VIVA SIMPLE: Modal abierto');
+        }
+        
+        function closeModal() {
+            console.log('PALABRA VIVA SIMPLE: Cerrando modal');
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Cerrar modal al hacer click fuera
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Cerrar con tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        console.log('PALABRA VIVA SIMPLE: Sistema inicializado');
+    </script>
+</body>
+</html>

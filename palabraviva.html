@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palabra Viva | Blog de Andrea Katerji</title>
+    <meta name="description" content="Un espacio de transformación donde la medicina funcional y el flow se encuentran. Artículos, reflexiones y conversaciones con la Dra. Andrea Katerji.">
+    <link rel="stylesheet" href="palabraviva-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modal Styles - Versión Simple que Funciona */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            max-height: 90vh;
+            width: 90%;
+            overflow-y: auto;
+            position: relative;
+            padding: 40px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #481F71;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #6EC6D2;
+            transform: rotate(90deg);
+        }
+        
+        .modal-category {
+            background: linear-gradient(135deg, #481F71, #6EC6D2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            color: #481F71;
+            margin-bottom: 30px;
+            line-height: 1.3;
+            font-family: 'Georgia', serif;
+        }
+        
+        .modal-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .modal-text p {
+            margin-bottom: 20px;
+        }
+        
+        .modal-text h2 {
+            font-size: 1.5rem;
+            color: #481F71;
+            margin: 30px 0 15px;
+            font-family: 'Georgia', serif;
+        }
+        
+        .modal-text blockquote {
+            border-left: 4px solid #481F71;
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .modal-text strong {
+            background: linear-gradient(135deg, rgba(72, 31, 113, 0.1), rgba(110, 198, 210, 0.1));
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="blog-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">Palabra Viva</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Portal</a>
+                <a href="myowndoc.html" class="nav-link">MyOwnDoc</a>
+                <a href="theflowmethod.html" class="nav-link">The Flow Method</a>
+                <a href="#suscribirse" class="nav-link nav-cta">Suscribirse</a>
+            </div>
+            
+            <button class="nav-toggle" aria-label="Menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="blog-hero">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+            <div class="hero-particles">
+                <span class="particle"></span>
+                <span class="particle"></span>
+                <span class="particle"></span>
+                <span class="particle"></span>
+                <span class="particle"></span>
+            </div>
+        </div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Palabra Viva</h1>
+                <p class="hero-subtitle">
+                    Un espacio de transformación donde la medicina funcional y el flow se encuentran. 
+                    Artículos, reflexiones y conversaciones con la Dra. Andrea Katerji.
+                </p>
+                <div class="hero-actions">
+                    <a href="#articulos" class="btn-primary">Explorar Artículos</a>
+                    <a href="https://instagram.com/myowndoc" target="_blank" class="btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+                        </svg>
+                        Instagram
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-gradient"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Grid -->
+    <section class="blog-section" id="articulos">
+        <div class="blog-container">
+            <div class="section-header">
+                <h2 class="section-title">Artículos Recientes</h2>
+                <p class="section-subtitle">
+                    Explora contenido profundo sobre salud femenina, medicina funcional y bienestar integral.
+                </p>
+            </div>
+            
+            <div class="blog-grid">
+                <!-- Article 1 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #481F71, #6EC6D2)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Salud Hormonal</div>
+                        <h3 class="card-title">Tu periodo no es el problema. Tu cuerpo está mandando una señal de auxilio.</h3>
+                        <p class="card-excerpt">
+                            Descubre qué te está diciendo tu ciclo menstrual sobre tu salud hormonal y metabólica.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('periodo')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #3A6B73, #D1B280)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Fatiga Crónica</div>
+                        <h3 class="card-title">Llevás 10 años cansada y te dijeron que es estrés.</h3>
+                        <p class="card-excerpt">
+                            El cansancio crónico tiene causas reales que la medicina convencional no está investigando.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('cansancio')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #6EC6D2, #A3C9A8)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Manejo del Estrés</div>
+                        <h3 class="card-title">El cortisol no es tu enemigo. Es que nunca aprendiste a manejarlo.</h3>
+                        <p class="card-excerpt">
+                            Aprende a trabajar con tu cortisol, no en su contra, para recuperar tu energía y salud.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('cortisol')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Article 4 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #481F71, #A3C9A8)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Salud Cerebral</div>
+                        <h3 class="card-title">No es que tenés mala memoria. Es que tu cerebro está inflamado.</h3>
+                        <p class="card-excerpt">
+                            La neuroinflamación es una epidemia silenciosa que afecta tu memoria, concentración y estado de ánimo.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('memoria')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Article 5 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #3A6B73, #481F71)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Metabolismo</div>
+                        <h3 class="card-title">Por qué engordás aunque comas poco y te mates en el gym.</h3>
+                        <p class="card-excerpt">
+                            El peso no es solo calorías. Descubre los factores hormonales y metabólicos que realmente importan.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('peso')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Article 6 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #D1B280, #6EC6D2)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Eje Intestino-Cerebro</div>
+                        <h3 class="card-title">Tu intestino y tus hormonas hablan entre sí. Y probablemente no se están llevando bien.</h3>
+                        <p class="card-excerpt">
+                            La salud intestinal es la base de tu equilibrio hormonal. Aprende a sanar desde la raíz.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('intestino')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Article 7 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #481F71, #6EC6D2)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Ejercicio & Hormonas</div>
+                        <h3 class="card-title">El síndrome de la atleta femenina: cuando más ejercicio te cuesta más caro.</h3>
+                        <p class="card-excerpt">
+                            El sobreentrenamiento puede destruir tu salud hormonal. Aprende a entrenar inteligentemente.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('atleta')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Article 8 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #3A6B73, #A3C9A8)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Salud Tiroidea</div>
+                        <h3 class="card-title">Tiroides 'normal' no significa tiroides sana.</h3>
+                        <p class="card-excerpt">
+                            Los rangos de laboratorio estándar no cuentan toda la historia de tu salud tiroidea.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('tiroides')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Article 9 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #6EC6D2, #D1B280)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Nutrición Funcional</div>
+                        <h3 class="card-title">Lo que el almidón resistente hace por tus hormonas y nadie te está enseñando a comer.</h3>
+                        <p class="card-excerpt">
+                            Un nutriente olvidado que puede revolucionar tu salud metabólica y hormonal.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('almidon')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Article 10 -->
+                <article class="blog-card">
+                    <div class="card-image">
+                        <div class="card-gradient" style="background: linear-gradient(135deg, #481F71, #D1B280)"></div>
+                        <div class="card-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">Medicina Funcional</div>
+                        <h3 class="card-title">Medicina Funcional no es medicina alternativa. Es medicina con evidencia que va más profundo.</h3>
+                        <p class="card-excerpt">
+                            Entiende qué es realmente la medicina funcional y por qué está transformando vidas.
+                        </p>
+                        <button class="btn-read-article" onclick="openModal('medicina-funcional')">
+                            <span>Leer artículo</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10m0 0l-3-3m3 3l-3 3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-category" id="modal-category"></div>
+            <h1 class="modal-title" id="modal-title"></h1>
+            <div class="modal-text" id="modal-text"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="blog-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 class="footer-title">Palabra Viva</h3>
+                    <p class="footer-text">
+                        Blog de medicina funcional donde la ciencia y el alma se encuentran para transformar tu salud.
+                    </p>
+                    <div class="footer-social">
+                        <a href="https://instagram.com/myowndoc" class="footer-social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Enlaces</h3>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#articulos">Artículos</a></li>
+                        <li><a href="https://instagram.com/myowndoc" target="_blank">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Andrea Katerji. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        console.log('MODAL TEST: Iniciando...');
+        
+        const articles = {
+            periodo: {
+                category: 'Salud Hormonal',
+                title: 'Tu periodo no es el problema. Tu cuerpo está mandando una señal de auxilio.',
+                content: `
+                    <p>Cada mes, millones de mujeres se toman un ibuprofeno, aprietan los dientes y esperan que pase. El dolor, los coágulos, el humor que cambia tres días antes, el hinchazón que parece inexplicable. Y lo que les dicen <strong>si es que les dicen algo</strong> es que eso es normal. Que las mujeres duelen. Que así es el periodo.</p>
+                    
+                    <p><strong>No. No es normal.</strong> Doloroso no significa normal. Y esta diferencia importa más de lo que creés.</p>
+                    
+                    <h2>¿Qué le está pasando realmente a tu cuerpo?</h2>
+                    
+                    <p>El ciclo menstrual es, en esencia, una conversación entre tu cerebro, tus ovarios y tu útero. Cuando esa conversación fluye bien, el periodo llega, hace lo que tiene que hacer, y se va en cuatro o cinco días sin mayor drama. Pero cuando hay interferencia en esa conversación <strong>y hoy hay muchas fuentes de interferencia</strong> el resultado es lo que la mayoría de las mujeres viven como "normal": dolor, irregularidad, síndrome premenstrual severo, coágulos.</p>
+                    
+                    <p>El principal culpable en la mayoría de los casos es la <strong>dominancia estrogénica</strong>. Este término suena técnico pero describe algo muy concreto: una situación en la que el estrógeno está elevado o actúa de manera excesiva en relación con la progesterona. El estrógeno, cuando está en balance, es una hormona poderosa y necesaria. Es la que construye el endometrio, la que nos da energía en la primera mitad del ciclo, la que contribuye a la salud cardiovascular y ósea. Pero cuando domina sin oposición, se convierte en el motor de inflamación, dolor y proliferación celular que muchas mujeres experimentan mes a mes.</p>
+                    
+                    <blockquote>
+                        Tu cuerpo no te está fallando. Tu cuerpo está respondiendo a un ambiente que lo sobrepasa.
+                    </blockquote>
+                    
+                    <h2>¿Qué se puede hacer?</h2>
+                    
+                    <p>La respuesta convencional a un periodo doloroso suele ser la misma: anticonceptivos orales para "regular" el ciclo, antiinflamatorios para el dolor, y si hay endometriosis, eventualmente cirugía. Nada de esto está mal en el contexto correcto. Pero ninguno de estos abordajes le pregunta al cuerpo qué está pasando.</p>
+                    
+                    <p>La medicina funcional hace otra cosa: mira al sistema completo. Evalúa el estroboloma con un estudio de microbioma. Mide el metabolismo del estrógeno con un análisis de orina seco (DUTCH test). Evalúa la carga hepática con marcadores específicos. Mide el cortisol salival a lo largo del día para ver el ritmo del eje HPA. Y con esa información, construye un plan que va a la raíz.</p>
+                    
+                    <p><strong>No es magia. Es medicina que entiende que el cuerpo es un sistema conectado, y que no podés arreglar una parte sin entender el todo.</strong></p>
+                `
+            },
+            cansancio: {
+                category: 'Fatiga Crónica',
+                title: 'Llevás 10 años cansada y te dijeron que es estrés.',
+                content: `
+                    <p>Hay un tipo de agotamiento que no se resuelve con vacaciones. Que no mejora con dormir más el fin de semana. Que no responde al café, al ejercicio ni a la sugerencia bien intencionada de "tomártelo con calma". Es un cansancio que vive en el hueso. Que te hace abrir los ojos por la mañana sintiéndote igual que cuando te acostaste. Que te convence, con el tiempo, de que simplemente sos así.</p>
+                    
+                    <p><strong>No sos así. Pero alguien te convenció de que sí.</strong></p>
+                    
+                    <h2>Por qué el cansancio crónico femenino es sistemáticamente ignorado</h2>
+                    
+                    <p>En la consulta médica convencional, el agotamiento crónico en mujeres tiene dos destinos posibles. O se diagnostica como depresión y se prescribe un antidepresivo. O se atribuye al estrés, al ritmo de vida, a "hacer demasiado", y la mujer se va con una palmada en el hombro y la sugerencia de meditar.</p>
+                    
+                    <p>Ambas respuestas ignoran la biología femenina. El cansancio crónico en mujeres rara vez es solo "estrés". Es casi siempre una combinación de disfunciones sistémicas que la medicina tradicional no está entrenada a buscar: inflamación crónica de bajo grado, resistencia a la insulina silenciosa, disfunción del eje HPA, deficiencias nutricionales específicas, y desequilibrios hormonales que no aparecen en un análisis de rutina.</p>
+                    
+                    <blockquote>
+                        El cansancio que sentís no es tu culpa. Es una señal de que algo en tu sistema necesita atención.
+                    </blockquote>
+                    
+                    <h2>La inflamación crónica: el fuego invisible</h2>
+                    
+                    <p>La inflamación aguda es visible: te cortás, se hincha, duele, se cura. La inflamación crónica de bajo grado es silenciosa. No duele. No se ve. Pero consume energía constantemente. Es como tener un motor corriendo en segundo plano todo el tiempo, drenando tus reservas.</p>
+                    
+                    <h2>Qué podés hacer hoy</h2>
+                    
+                    <p>La solución no es un antidepresivo ni "tomarte las cosas con más calma". La solución es entender qué está pasando realmente en tu cuerpo y abordarlo desde la raíz.</p>
+                `
+            },
+            cortisol: {
+                category: 'Manejo del Estrés',
+                title: 'El cortisol no es tu enemigo. Es que nunca aprendiste a manejarlo.',
+                content: `
+                    <p>Si hay una hormona que recibe más críticas que el cortisol, no se me ocurre cuál es. "Tengo el cortisol por las nubes", "el cortisol me está matando", "hay que bajar el cortisol". Se habla de él como si fuera un intruso en el cuerpo, algo que hay que eliminar. Ese es el primer error.</p>
+                    
+                    <p><strong>El cortisol es esencial. Sin cortisol, morirías.</strong> El problema no es que exista. El problema es cuándo, cuánto y en qué ritmo aparece.</p>
+                    
+                    <h2>El ritmo circadiano del cortisol</h2>
+                    
+                    <p>El cortisol tiene un ritmo diario preciso y elegante. Debería estar en su pico máximo aproximadamente 30-45 minutos después de despertar y luego descender de manera gradual a lo largo del día, llegando a su nivel más bajo en la noche. Este ritmo no es opcional. Es esencial para que decenas de procesos biológicos funcionen correctamente.</p>
+                    
+                    <p>Cuando el ritmo se invierte <strong>bajo en la mañana, alto en la noche</strong> todo el sistema falla. La persona no puede despertar, arrastra el día con niebla mental, y cuando finalmente llega la noche y debería dormir, está activada, rumiando, incapaz de apagar. Eso no es "ser noctámbula". Es un eje HPA disfuncional.</p>
+                    
+                    <blockquote>
+                        El problema no es que tengas cortisol. El problema es cuándo lo tenés y en qué cantidad.
+                    </blockquote>
+                    
+                    <h2>Qué se puede hacer</h2>
+                    
+                    <p>Manejar el cortisol no significa eliminarlo. Significa respetar su ritmo. Algunas de las intervenciones más respaldadas por evidencia incluyen: exposición a luz solar en los primeros 30 minutos después de despertar para anclar el ritmo circadiano, entrenamiento físico dosificado con períodos de recuperación genuinos, adaptógenos como la ashwagandha o la rhodiola con evidencia de modulación del eje HPA, magnesio en la noche para facilitar el descenso del cortisol y mejorar el sueño, y reducción de estresores digitales en las horas nocturnas.</p>
+                    
+                    <p>Pero sobre todo: aprender a reconocer que el descanso no es un lujo. Es una necesidad fisiológica sin la cual el eje HPA no puede regularse. En nuestra cultura, eso sigue siendo radical.</p>
+                `
+            },
+            memoria: {
+                category: 'Salud Cerebral',
+                title: 'No es que tenés mala memoria. Es que tu cerebro está inflamado.',
+                content: `<p>Contenido del artículo sobre memoria cerebral...</p>`
+            },
+            peso: {
+                category: 'Metabolismo',
+                title: 'Por qué engordás aunque comas poco y te mates en el gym.',
+                content: `<p>Contenido del artículo sobre metabolismo...</p>`
+            },
+            intestino: {
+                category: 'Eje Intestino-Cerebro',
+                title: 'Tu intestino y tus hormonas hablan entre sí. Y probablemente no se están llevando bien.',
+                content: `<p>Contenido del artículo sobre intestino...</p>`
+            },
+            atleta: {
+                category: 'Ejercicio & Hormonas',
+                title: 'El síndrome de la atleta femenina: cuando más ejercicio te cuesta más caro.',
+                content: `<p>Contenido del artículo sobre atleta femenina...</p>`
+            },
+            tiroides: {
+                category: 'Salud Tiroidea',
+                title: 'Tiroides \'normal\' no significa tiroides sana.',
+                content: `<p>Contenido del artículo sobre tiroides...</p>`
+            },
+            almidon: {
+                category: 'Nutrición Funcional',
+                title: 'Lo que el almidón resistente hace por tus hormonas y nadie te está enseñando a comer.',
+                content: `<p>Contenido del artículo sobre almidón resistente...</p>`
+            },
+            'medicina-funcional': {
+                category: 'Medicina Funcional',
+                title: 'Medicina Funcional no es medicina alternativa. Es medicina con evidencia que va más profundo.',
+                content: `<p>Contenido del artículo sobre medicina funcional...</p>`
+            }
+        };
+        
+        function openModal(articleId) {
+            console.log('MODAL TEST: Abriendo artículo:', articleId);
+            
+            const article = articles[articleId];
+            if (!article) {
+                console.error('MODAL TEST: Artículo no encontrado:', articleId);
+                return;
+            }
+            
+            document.getElementById('modal-category').textContent = article.category;
+            document.getElementById('modal-title').textContent = article.title;
+            document.getElementById('modal-text').innerHTML = article.content;
+            
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            console.log('MODAL TEST: Modal abierto');
+        }
+        
+        function closeModal() {
+            console.log('MODAL TEST: Cerrando modal');
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Cerrar modal al hacer click fuera
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Cerrar con tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        console.log('MODAL TEST: Sistema inicializado');
+    </script>
+</body>
+</html>

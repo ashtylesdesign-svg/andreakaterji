@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Artículos - Palabra Viva</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .btn { padding: 10px 20px; margin: 10px; background: #481F71; color: white; border: none; cursor: pointer; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; }
+        .modal-content { background: white; margin: 50px auto; padding: 20px; max-width: 800px; max-height: 80vh; overflow-y: auto; }
+        .close { float: right; font-size: 28px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>DEBUG - Sistema de Artículos</h1>
+    
+    <button class="btn" onclick="openModal('memoria')">Artículo: Memoria</button>
+    <button class="btn" onclick="openModal('metabolismo')">Artículo: Metabolismo</button>
+    <button class="btn" onclick="openModal('intestino')">Artículo: Intestino</button>
+    <button class="btn" onclick="openModal('atleta')">Artículo: Atleta</button>
+    <button class="btn" onclick="openModal('tiroides')">Artículo: Tiroides</button>
+    <button class="btn" onclick="openModal('almidon')">Artículo: Almidón</button>
+    <button class="btn" onclick="openModal('medicina-funcional')">Artículo: Medicina Funcional</button>
+    
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-category"></p>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        console.log('DEBUG: Iniciando sistema...');
+        
+        const articles = {
+            memoria: {
+                category: 'Salud Cerebral',
+                title: 'No es que tenés mala memoria. Es que tu cerebro está inflamado.',
+                content: '<p>Contenido del artículo de memoria...</p>'
+            },
+            metabolismo: {
+                category: 'Metabolismo',
+                title: 'Por qué engordás aunque comas poco y te mates en el gym.',
+                content: '<p>Contenido del artículo de metabolismo...</p>'
+            },
+            intestino: {
+                category: 'Salud Intestinal',
+                title: 'Tu intestino y tus hormonas hablan entre sí.',
+                content: '<p>Contenido del artículo de intestino...</p>'
+            },
+            atleta: {
+                category: 'Ejercicio & Hormonas',
+                title: 'El síndrome de la atleta femenina.',
+                content: '<p>Contenido del artículo de atleta...</p>'
+            },
+            tiroides: {
+                category: 'Salud Tiroidea',
+                title: 'Tiroides normal no significa tiroides sana.',
+                content: '<p>Contenido del artículo de tiroides...</p>'
+            },
+            almidon: {
+                category: 'Nutrición Funcional',
+                title: 'Lo que el almidón resistente hace por tus hormonas.',
+                content: '<p>Contenido del artículo de almidón...</p>'
+            },
+            'medicina-funcional': {
+                category: 'Medicina Funcional',
+                title: 'Medicina Funcional no es medicina alternativa.',
+                content: '<p>Contenido del artículo de medicina funcional...</p>'
+            }
+        };
+        
+        function openModal(articleId) {
+            console.log('DEBUG: Abriendo artículo:', articleId);
+            
+            const article = articles[articleId];
+            if (!article) {
+                console.error('DEBUG: Artículo no encontrado:', articleId);
+                alert('Artículo no encontrado: ' + articleId);
+                return;
+            }
+            
+            document.getElementById('modal-title').textContent = article.title;
+            document.getElementById('modal-category').textContent = article.category;
+            document.getElementById('modal-content').innerHTML = article.content;
+            document.getElementById('modal').style.display = 'block';
+            
+            console.log('DEBUG: Modal abierto con éxito');
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        console.log('DEBUG: Sistema inicializado correctamente');
+        console.log('DEBUG: Artículos disponibles:', Object.keys(articles));
+    </script>
+</body>
+</html>
